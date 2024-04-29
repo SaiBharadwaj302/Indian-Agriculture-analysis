@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Production Scatter Plot</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <input type="button" value="Rice" id="riceButton" class="button1">
+    <input type="button" value="Wheat" id="wheatButton" class="button1">
+    <input type="button" value="Kharif Sorghum" id="kharifSorghumButton" class="button1">
+    <input type="button" value="Rabi Sorghum" id="rabiSorghumButton" class="button1">
+    <input type="button" value="Sorghum" id="sorghumButton" class="button1">
+    <input type="button" value="Pearl Millet" id="pearlMilletButton" class="button1">
+    <input type="button" value="Maize" id="maizeButton" class="button1">
+    <input type="button" value="Finger Millet" id="fingerMilletButton" class="button1">
+    <div id="container">
+        <svg id="canvas" viewBox="0 0 1000 800"></svg>
+    </div>
+
+    <script>
+        // Event listeners for each crop button
+        document.getElementById("riceButton").addEventListener("click", function() {
+            createScatterPlot("Rice");
+        });
+
+        document.getElementById("wheatButton").addEventListener("click", function() {
+            createScatterPlot("Wheat");
+        });
+
+        document.getElementById("kharifSorghumButton").addEventListener("click", function() {
+            create111ScatterPlot("Kharif Sorghum");
+        });
+
+        document.getElementById("rabiSorghumButton").addEventListener("click", function() {
+            createScatterPlot("Rabi Sorghum");
+        });
+
+        document.getElementById("sorghumButton").addEventListener("click", function() {
+            createScatterPlot("Sorghum");
+        });
+
+        document.getElementById("pearlMilletButton").addEventListener("click", function() {
+            createScatterPlot("Pearl Millet");
+        });
+
+        document.getElementById("maizeButton").addEventListener("click", function() {
+            createScatterPlot("Maize");
+        });
+
+        document.getElementById("fingerMilletButton").addEventListener("click", function() {
+            createScatterPlot("Finger Millet");
+        });
+
+        function createScatterPlot(cropType) {
+    d3.csv("https://raw.githubusercontent.com/SaiBharadwaj302/Indian-Agriculture-analysis/main/data/ICRISAT-District%20Level%20Data.csv").then(csvData => {
+        let yieldProperty;
+
+        switch(cropType) {
+            case "Rice":
+                yieldProperty = 'RICE YIELD (Kg per ha)';
+                break;
+            case "Wheat":
+                yieldProperty = 'WHEAT YIELD (Kg per ha)';
+                break;
+            case "Kharif Sorghum":
+                yieldProperty = 'KHARIF SORGHUM YIELD (Kg per ha)';
+                break;
+            case "Rabi Sorghum":
+                yieldProperty = 'RABI SORGHUM YIELD (Kg per ha)';
+                break;
+            case "Sorghum":
+                yieldProperty = 'SORGHUM YIELD (Kg per ha)';
+                break;
+            case "Pearl Millet":
+                yieldProperty = 'PEARL MILLET YIELD (Kg per ha)';
+                break;
+            case "Maize":
+                yieldProperty = 'MAIZE YIELD (Kg per ha)';
+                break;
+            case "Finger Millet":
+                yieldProperty = 'FINGER MILLET YIELD (Kg per ha)';
+                break;
+            default:
+                console.error("Invalid crop type.");
+                return;
+        }
+
+        // Extract state data and yield data
+        const stateData = csvData.map(d => d['StateName']);
+        const yieldData = csvData.map(d => +d[yieldProperty]);
+
+       
+
+        // Calculate the maximum yield value for scaling the radius
+        const maxProduction = d3.max(yieldData);
+
+        // Remove existing SVG if any
+        d3.select("svg").remove();
+
+        // Set up SVG dimensions
+        const svgWidth = 600;
+        const svgHeight = 400;
+
+        // Create SVG container
+        const svg = d3.select("#container").append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight);
+
+        // Define color scale based on StateCode
+        const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+        console.log(yieldData);
+
+        // Create circles for each state
+        const circles = svg.selectAll("circle")
+            .data(csvData)
+            .enter()
+            .append("circle")
+            .attr("cx",d =>d['StateCode'])
+            
+            .attr("r", d=>d3.max(yieldData))
+            .attr("fill", d => colorScale(d.StateCode))
+            .attr("opacity", 0.7);
+
+        // Add tooltip for state name
+        circles.append("title")
+            .text(d => d.StateName);
+
+    }).catch(error => {
+        console.error("Error loading CSV data:", error);
+    });
+}
+
+
+
+
+
+    </script>
+</body>
+</html>

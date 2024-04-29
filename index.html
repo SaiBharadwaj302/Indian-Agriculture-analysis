@@ -111,7 +111,7 @@
                 let minArea = d3.min(areaData);
 
                 console.log(maxArea);
-        console.log(minArea);
+                console.log(minArea);
                 // Create a quantize color scale based on area values
                 const colorScale = d3.scaleQuantize()
                     .domain([minArea, maxArea])
@@ -123,15 +123,15 @@
                 let geoJson = topojson.feature(topojsonData, topojsonData.objects[objectName]).features;
         
                 // Projection and geo generator
-                const projection = d3.geoEquirectangular().fitSize([700,700], topojson.feature(topojsonData, topojsonData.objects[objectName]));
+                const projection = d3.geoEquirectangular().fitSize([1000,800], topojson.feature(topojsonData, topojsonData.objects[objectName]));
                 let geoGenerator = d3.geoPath(projection);
         
                 // SVG container
                 d3.select('svg').remove()
                 let svg = d3.select('body')
                     .append('svg')
-                    .attr('width', 1200)
-                    .attr('height', 1000);
+                    .attr('width', 1000)
+                    .attr('height', 800);
         
                 // Map canvas
                 let mapCanvas = svg.append('g');    

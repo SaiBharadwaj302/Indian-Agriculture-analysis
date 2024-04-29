@@ -1,0 +1,33 @@
+
+.path_geo {
+    stroke: #000;
+    stroke-width: 0.1px;
+    display: flexbox;
+    width: 100vw;   
+    height: fit-content;
+}
+
+
+.button1 {
+    background-color: #000;
+    /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    top: auto;
+}
+
+.button1:hover {
+    background-color: blue;
+    /* Darker Green */
+}
+
+
+.text{
+    font-size: small;
+}
