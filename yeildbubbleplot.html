@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rice Production Scatter Plot</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet"href="css/bubble.css" > 
 </head>
 <body>
     <input type="button" value="Rice" id="riceButton" class="button1">
@@ -16,7 +17,7 @@
     <input type="button" value="Maize" id="maizeButton" class="button1">
     <input type="button" value="Finger Millet" id="fingerMilletButton" class="button1">
     <div id="container">
-        <svg id="canvas" viewBox="0 0 1000 800"></svg>
+        <svg id="canvas" viewBox="0 0 1200 800"></svg>
     </div>
 
     <script>
@@ -30,7 +31,7 @@
         });
 
         document.getElementById("kharifSorghumButton").addEventListener("click", function() {
-            create111ScatterPlot("Kharif Sorghum");
+            createScatterPlot("Kharif Sorghum");
         });
 
         document.getElementById("rabiSorghumButton").addEventListener("click", function() {
@@ -52,6 +53,9 @@
         document.getElementById("fingerMilletButton").addEventListener("click", function() {
             createScatterPlot("Finger Millet");
         });
+
+        // Initially create map with default crop data (Rice)
+        createScatterPlot("Rice");
 
         function createScatterPlot(cropType) {
     d3.csv("https://raw.githubusercontent.com/SaiBharadwaj302/Indian-Agriculture-analysis/main/data/ICRISAT-District%20Level%20Data.csv").then(csvData => {
@@ -87,55 +91,84 @@
                 return;
         }
 
-        // Extract state data and yield data
-        const stateData = csvData.map(d => d['StateName']);
-        const yieldData = csvData.map(d => +d[yieldProperty]);
+        // Aggregate data to find maximum yield value per state
+        const maxYieldPerState = d3.rollup(
+            csvData,
+            v => d3.max(v, d => +d[yieldProperty]),
+            d => d.StateName
+        );
+        const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
-       
+        // Convert maxYieldPerState map to array of objects for force simulation
+        const nodes = Array.from(maxYieldPerState, ([state, yield]) => ({ state, yield }));
 
-        // Calculate the maximum yield value for scaling the radius
-        const maxProduction = d3.max(yieldData);
+        // Set up SVG dimensions
+        const svgWidth = 1200; // Adjust as needed
+        const svgHeight = 700; // Adjust as needed
 
         // Remove existing SVG if any
         d3.select("svg").remove();
-
-        // Set up SVG dimensions
-        const svgWidth = 600;
-        const svgHeight = 400;
 
         // Create SVG container
         const svg = d3.select("#container").append("svg")
             .attr("width", svgWidth)
             .attr("height", svgHeight);
 
-        // Define color scale based on StateCode
-        const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-        console.log(yieldData);
+        // Define custom color scale with 20 distinct colors
+        const customColors = [
+                            "#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c",
+                            "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5",
+                            "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f",
+                            "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"
+];
+
+const colorScale = d3.scaleOrdinal().range(customColors);
+
+        // Create force simulation
+        const simulation = d3.forceSimulation(nodes)
+            .force("center", d3.forceCenter(svgWidth / 2, svgHeight / 2))
+            .force("x", d3.forceX(svgWidth).strength(0.01))
+            .force("y", d3.forceY(svgHeight).strength(0.011))
+            .force("collide", d3.forceCollide().radius(d => Math.sqrt(d.yield) / Math.sqrt(100)* 6))
+            .on("tick", ticked)
+            .alpha(1) // Start with full alpha value for faster convergence
+            .restart(); // Restart simulation
+
+        // Function to update positions of circles
+        function ticked() {
+            // Update circle positions
+            svg.selectAll("circle")
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y);
+        }
 
         // Create circles for each state
         const circles = svg.selectAll("circle")
-            .data(csvData)
+            .data(nodes)
             .enter()
             .append("circle")
-            .attr("cx",d =>d['StateCode'])
-            
-            .attr("r", d=>d3.max(yieldData))
-            .attr("fill", d => colorScale(d.StateCode))
-            .attr("opacity", 0.7);
+            .attr("r", d => d.yield === 0 ? 0 : Math.sqrt(d.yield) / Math.sqrt(100) * 6) // Scale the radius based on max yield
+            .attr("fill", d => colorScale(d.state)) // Set color based on state name
+            .attr("opacity", 1);
 
-        // Add tooltip for state name
-        circles.append("title")
-            .text(d => d.StateName);
+        // Add tooltip for max yield
+        circles.on("mouseover", (event, d) => {
+        tooltip.transition().duration(200).style("opacity", 1);
+        tooltip.html(`${d.state}: ${d.yield} (Kg per ha)`)
+               .style("left", (event.pageX ) + "px")
+               .style("top", (event.pageY) + "px");
+    })
+    .on("mouseout", () => tooltip.transition().duration(500).style("opacity", 0));
 
     }).catch(error => {
         console.error("Error loading CSV data:", error);
     });
 }
 
-
-
-
-
+            
+   
     </script>
 </body>
 </html>
