@@ -11,7 +11,112 @@
     font-family: sans-serif;
     z-index: 999; /* Added z-index to ensure tooltip is displayed on top of other elements */
 }
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
 
+h1 {
+    color: #333;
+    text-align: center;
+    font-size: 48px;
+    font-weight: Bold;
+    background: linear-gradient(to right, #FF512F, #DD2476); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    animation: rainbowTextAnimation 10s ease infinite;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    font-size: 48px;
+    font-weight: Bold;
+    margin-top: 20px;
+}
+
+p {
+    color: #333; 
+    font-size: 16px; 
+    line-height: 1.6; 
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.navbar {
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+}
+
+.navbar a {
+    text-decoration: none;
+    padding: 8px 20px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.navbar a:hover {
+    background-color: #45a049;
+}
+
+
+.map-container {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.description {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+svg {
+    width: 100%;
+    height: auto;
+}
+
+.legend {
+    font-size: 12px;
+}
+
+.legend .color-box {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.legend .legend-text {
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .navbar a.button1 {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}
 .path_geo {
     stroke: #000;
     stroke-width: 0.1px;
