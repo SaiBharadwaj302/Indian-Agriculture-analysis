@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rice Production Bar Plot</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src = "css/barstyle.css"></script>
+    <link rel="stylesheet"href="css/barstyle.css"> 
 </head>
 <body>
-    <input type="button" value="Rice" id="riceButton" class="button1">
-    <input type="button" value="Wheat" id="wheatButton" class="button1">
-    <input type="button" value="Kharif Sorghum" id="kharifSorghumButton" class="button1">
-    <input type="button" value="Rabi Sorghum" id="rabiSorghumButton" class="button1">
-    <input type="button" value="Sorghum" id="sorghumButton" class="button1">
-    <input type="button" value="Pearl Millet" id="pearlMilletButton" class="button1">
-    <input type="button" value="Maize" id="maizeButton" class="button1">
-    <input type="button" value="Finger Millet" id="fingerMilletButton" class="button1">
+    <button class="button" value="Rice" id="riceButton"><span>Rice </span></button></button>
+    <button class="button" value="Wheat" id="wheatButton"><span>Wheat </span></button></button>
+    <button class="button" value="Kharif Sorghum" id="kharifSorghumButton"><span>Kharif Sorghum </span></button></button>
+    <button class="button" value="Rabi Sorghum" id="rabiSorghumButton"><span>Rabi Sorghum </span></button></button>
+    <button class="button" value="Sorghum" id="sorghumButton"><span>Sorghum </span></button></button>
+    <button class="button" value="Pearl Millet" id="pearlMilletButton"><span>Pearl Millet </span></button></button>
+    <button class="button" value="Maize" id="maizeButton"><span>Maize </span></button></button>
+    <button class="button" value="Finger Millet" id="fingerMilletButton"><span>Finger Millet </span></button></button>
     <div id="container">
         <svg id="canvas" viewBox="0 0 1000 800"></svg>
     </div>
@@ -98,11 +98,11 @@
 
                 // Calculate the maximum value of crop production
                 const maxProduction = d3.max(productionData);
-
+                console.log(maxProduction);
                 // Set up SVG dimensions
-                const margin = { top: 100, right: 100, bottom: 100, left: 50 };
-                const width = 600 + margin.left + margin.right;
-                const height = 400 + margin.top + margin.bottom;
+                const margin = { top: 100, right: 100, bottom: 100, left: 100 };
+                const width = 700 + margin.left + margin.right;
+                const height = 200 + margin.top + margin.bottom;
 
                 // Remove existing SVG if any
                 d3.select("svg").remove();
@@ -192,7 +192,7 @@
                     .attr("transform", `translate(0,${height})`)
                     .call(d3.axisBottom(xScale))
                     .selectAll("text")
-                    .attr("transform", "rotate(-90)")
+                    .attr("transform", "rotate(-45)")
                     .style("text-anchor", "end")
                     .attr("opacity", 0) // Set initial opacity to 0
                     .transition() // Add transition to the x-axis
@@ -210,6 +210,11 @@
                     .ease(d3.easeCubicInOut)
                     .attr("opacity", 1); 
 
+
+               
+
+
+
                 // Add y-axis label
                 svg.append("text")
                     .attr("transform", "rotate(-90)")
@@ -217,15 +222,21 @@
                     .attr("x", 0 - (height / 2))
                     .attr("dy", "1em")
                     .style("text-anchor", "middle")
-                    .text(`${cropType.toUpperCase()} PRODUCTION (1000 tons)`);
+                    .style("font-size", "18px")
+                    .style("font-weight","800")
+                    .style("font-style","sans-serif")
+                    .text(`${cropType.toUpperCase()} Production (1000 tons)`);
 
                 // Add title
                 svg.append("text")
+                    .attr("class","label")
                     .attr("x", width / 2)
                     .attr("y", 0 - (margin.top / 2))
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
-                    .text(`Max ${cropType.toUpperCase()} Production by State`);
+                    .style("font-size", "22px")
+                    .style("font-weight","1000")
+                    .style("font-style","sans-serif")
+                    .text(`Maximum ${cropType.toUpperCase()} Production by State`);
             }).catch(error => {
                 console.error("Error loading CSV data:", error);
             });
