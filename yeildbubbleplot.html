@@ -58,7 +58,7 @@
         createBubblePlot("Rice");
 
         function createBubblePlot(cropType) {
-    d3.csv("https://raw.githubusercontent.com/SaiBharadwaj302/Indian-Agriculture-analysis/main/data/ICRISAT-District%20Level%20Data.csv").then(csvData => {
+    d3.csv("data/data.csv").then(csvData => {
         let yieldProperty;
 
         switch(cropType) {
