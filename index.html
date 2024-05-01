@@ -15,7 +15,7 @@
             <a class="btn btn-sm btn-outline-secondary" href="yeildbubbleplot.html" role="button">Yeild Bubble Plot</a>
         </form>
     </nav>
-    <button class="button" value="Rice" id="riceButton"><span>Rice </span></button></button>
+    <button class="button" value="Rice" id="riceButton"><span>RICE </span></button></button>
     <button class="button" value="Wheat" id="wheatButton"><span>Wheat </span></button></button>
     <button class="button" value="Kharif Sorghum" id="kharifSorghumButton"><span>Kharif Sorghum </span></button></button>
     <button class="button" value="Rabi Sorghum" id="rabiSorghumButton"><span>Rabi Sorghum </span></button></button>
@@ -23,6 +23,8 @@
     <button class="button" value="Pearl Millet" id="pearlMilletButton"><span>Pearl Millet </span></button></button>
     <button class="button" value="Maize" id="maizeButton"><span>Maize </span></button></button>
     <button class="button" value="Finger Millet" id="fingerMilletButton"><span>Finger Millet </span></button></button>
+    
+
 
     <div id="container">
         <svg id="canvas" viewBox="0 0 1000 800">
@@ -68,7 +70,7 @@
         createMap("Rice");
 
         function createMap(cropType) {
-            let maxAreaByState = {}; // Clear maxAreaByState object
+            let maxAreaByDistrict = {}; // Clear maxAreaByDistrict object
 
             Promise.all([
                 d3.csv("https://raw.githubusercontent.com/SaiBharadwaj302/Indian-Agriculture-analysis/main/data/ICRISAT-District%20Level%20Data.csv")
@@ -82,49 +84,49 @@
                 switch (cropType) {
                     case "Rice":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['RICE AREA (1000 ha)']
                         }));
                         break;
                     case "Wheat":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['WHEAT AREA (1000 ha)']
                         }));
                         break;
                     case "Kharif Sorghum":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['KHARIF SORGHUM AREA (1000 ha)']
                         }));
                         break;
                     case "Rabi Sorghum":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['RABI SORGHUM AREA (1000 ha)']
                         }));
                         break;
                     case "Sorghum":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['SORGHUM AREA (1000 ha)']
                         }));
                         break;
                     case "Pearl Millet":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['PEARL MILLET AREA (1000 ha)']
                         }));
                         break;
                     case "Maize":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['MAIZE AREA (1000 ha)']
                         }));
                         break;
                     case "Finger Millet":
                         areaData = csvData.map(d => ({
-                            State: d.StateName,
+                            district: d.StateName,
                             area: +d['FINGER MILLET AREA (1000 ha)']
                         }));
                         break;
@@ -139,15 +141,15 @@
 
                 // Iterate over the areaData array to find maximum areas
                 areaData.forEach(item => {
-                    if (!maxAreaByState[item.State]) {
-                        maxAreaByState[item.State] = item.area;
+                    if (!maxAreaByDistrict[item.district]) {
+                        maxAreaByDistrict[item.district] = item.area;
                     } else {
-                        maxAreaByState[item.State] = Math.max(maxAreaByState[item.State], item.area);
+                        maxAreaByDistrict[item.district] = Math.max(maxAreaByDistrict[item.district], item.area);
                     }
                 });
 
                 // Create a quantize color scale based on maximum area values
-                const maxAreaOverall = d3.max(Object.values(maxAreaByState));
+                const maxAreaOverall = d3.max(Object.values(maxAreaByDistrict));
                 console.log( maxAreaOverall);
                 const colorScale = d3.scaleQuantize()
                     .domain([-1, maxAreaOverall])
@@ -193,14 +195,14 @@
                         .attr("d", pathGenerator)
                         .style("fill", (d) => {
                             const StateName = d.properties.NAME_1; // Assuming the property for district name is "NAME_1"
-                            const area = maxAreaByState[StateName];
+                            const area = maxAreaByDistrict[StateName];
                             return colorScale(area); // Use colorScale with the corresponding area value
                         })
                         .style("stroke", "#000")
                         .style("stroke-width", 0.5)
                         .on("mouseover", function(event, d) {
                             const StateName = d.properties.NAME_1;
-                            const area = maxAreaByState[StateName];
+                            const area = maxAreaByDistrict[StateName];
                             tooltip.transition().duration(200).style("opacity", 1);
                             tooltip.html(`${StateName}: ${area} (Kg per ha)`)
                                 .style("left", (event.pageX) + "px")
