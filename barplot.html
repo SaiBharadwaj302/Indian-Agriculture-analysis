@@ -58,7 +58,7 @@
         createBarplot("Rice");
 
         function createBarplot(cropType) {
-            d3.csv("https://raw.githubusercontent.com/SaiBharadwaj302/Indian-Agriculture-analysis/main/data/ICRISAT-District%20Level%20Data.csv").then(csvData => {
+            d3.csv("data/data.csv").then(csvData => {
                 // Process your data here
                 let productionProperty;
 
@@ -98,7 +98,7 @@
 
                 // Calculate the maximum value of crop production
                 const maxProduction = d3.max(productionData);
-                console.log(maxProduction);
+                
                 // Set up SVG dimensions
                 const margin = { top: 100, right: 100, bottom: 100, left: 100 };
                 const width = 700 + margin.left + margin.right;
@@ -177,7 +177,7 @@
                     .style("top", (event.pageY ) + "px"); // Align with the top of the bar
     })
                 .on("mouseout", () => {
-        // Hide tooltip
+                    // Hide tooltip
                 tooltip.transition()
                     .duration(500)
                     .style("opacity", 0);
@@ -186,7 +186,7 @@
 
 
 
-// Add x-axis
+                    // Add x-axis
                  svg.append("g")
                     .attr("class", "x-axis")
                     .attr("transform", `translate(0,${height})`)
