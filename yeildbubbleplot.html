@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rice Production Scatter Plot</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet"href="css/bubble.css" > 
+    <link rel="stylesheet"href="css/bubble.css"> 
 </head>
 <body>
-    <input type="button" value="Rice" id="riceButton" class="button1">
-    <input type="button" value="Wheat" id="wheatButton" class="button1">
-    <input type="button" value="Kharif Sorghum" id="kharifSorghumButton" class="button1">
-    <input type="button" value="Rabi Sorghum" id="rabiSorghumButton" class="button1">
-    <input type="button" value="Sorghum" id="sorghumButton" class="button1">
-    <input type="button" value="Pearl Millet" id="pearlMilletButton" class="button1">
-    <input type="button" value="Maize" id="maizeButton" class="button1">
-    <input type="button" value="Finger Millet" id="fingerMilletButton" class="button1">
+    <button class="button" value="Rice" id="riceButton"><span>Rice </span></button></button>
+    <button class="button" value="Wheat" id="wheatButton"><span>Wheat </span></button></button>
+    <button class="button" value="Kharif Sorghum" id="kharifSorghumButton"><span>Kharif Sorghum </span></button></button>
+    <button class="button" value="Rabi Sorghum" id="rabiSorghumButton"><span>Rabi Sorghum </span></button></button>
+    <button class="button" value="Sorghum" id="sorghumButton"><span>Sorghum </span></button></button>
+    <button class="button" value="Pearl Millet" id="pearlMilletButton"><span>Pearl Millet </span></button></button>
+    <button class="button" value="Maize" id="maizeButton"><span>Maize </span></button></button>
+    <button class="button" value="Finger Millet" id="fingerMilletButton"><span>Finger Millet </span></button></button>
     <div id="container">
         <svg id="canvas" viewBox="0 0 1200 800"></svg>
     </div>
@@ -23,41 +23,41 @@
     <script>
         // Event listeners for each crop button
         document.getElementById("riceButton").addEventListener("click", function() {
-            createScatterPlot("Rice");
+            createBubblePlot("Rice");
         });
 
         document.getElementById("wheatButton").addEventListener("click", function() {
-            createScatterPlot("Wheat");
+            createBubblePlot("Wheat");
         });
 
         document.getElementById("kharifSorghumButton").addEventListener("click", function() {
-            createScatterPlot("Kharif Sorghum");
+            createBubblePlot("Kharif Sorghum");
         });
 
         document.getElementById("rabiSorghumButton").addEventListener("click", function() {
-            createScatterPlot("Rabi Sorghum");
+            createBubblePlot("Rabi Sorghum");
         });
 
         document.getElementById("sorghumButton").addEventListener("click", function() {
-            createScatterPlot("Sorghum");
+            createBubblePlot("Sorghum");
         });
 
         document.getElementById("pearlMilletButton").addEventListener("click", function() {
-            createScatterPlot("Pearl Millet");
+            createBubblePlot("Pearl Millet");
         });
 
         document.getElementById("maizeButton").addEventListener("click", function() {
-            createScatterPlot("Maize");
+            createBubblePlot("Maize");
         });
 
         document.getElementById("fingerMilletButton").addEventListener("click", function() {
-            createScatterPlot("Finger Millet");
+            createBubblePlot("Finger Millet");
         });
 
         // Initially create map with default crop data (Rice)
-        createScatterPlot("Rice");
+        createBubblePlot("Rice");
 
-        function createScatterPlot(cropType) {
+        function createBubblePlot(cropType) {
     d3.csv("https://raw.githubusercontent.com/SaiBharadwaj302/Indian-Agriculture-analysis/main/data/ICRISAT-District%20Level%20Data.csv").then(csvData => {
         let yieldProperty;
 
@@ -106,7 +106,7 @@
 
         // Set up SVG dimensions
         const svgWidth = 1200; // Adjust as needed
-        const svgHeight = 700; // Adjust as needed
+        const svgHeight = 800; // Adjust as needed
 
         // Remove existing SVG if any
         d3.select("svg").remove();
