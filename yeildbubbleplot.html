@@ -6,8 +6,31 @@
     <title>Rice Production Scatter Plot</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <link rel="stylesheet"href="css/bubble.css"> 
+    
 </head>
 <body>
+    <h1>India Agriculture Analysis</h1>
+
+    <div class="container">
+        <!-- Description about the dataset -->
+        <div class="description">
+            <p> The visualizations provides an in-depth analysis of the dynamic fluctuations in the area, yield, and production of a diverse range of crops cultivated across different states of India. By examining trends over time, it offers valuable insights into the agricultural landscape, highlighting variations in crop performance influenced by factors such as climate, soil conditions, and agricultural practices.</p>
+        </div>
+
+        <div class="container">
+            <!-- Description about the dataset -->
+            <div class="description">
+                <p> Use the buttons to navigate through the visualizations. </p>
+            </div></p>
+            </div>
+            <nav class="navbar navbar-light bg-light">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="index.html" class="btn btn-secondary" role="button">Maximum Area  per States</a>
+                    <a href="barplot.html" class="btn btn-secondary" role="button">Maximum Production Bar Plot</a>
+                    <a href="yeildbubbleplot.html" class="btn btn-secondary" role="button">Maximum Yield Bubble Plot</a>
+                </div>
+            </nav>
+
     <button class="button" value="Rice" id="riceButton"><span>Rice </span></button></button>
     <button class="button" value="Wheat" id="wheatButton"><span>Wheat </span></button></button>
     <button class="button" value="Kharif Sorghum" id="kharifSorghumButton"><span>Kharif Sorghum </span></button></button>
@@ -106,7 +129,7 @@
 
         // Set up SVG dimensions
         const svgWidth = 1200; // Adjust as needed
-        const svgHeight = 800; // Adjust as needed
+        const svgHeight = 700; // Adjust as needed
 
         // Remove existing SVG if any
         d3.select("svg").remove();
@@ -115,6 +138,14 @@
         const svg = d3.select("#container").append("svg")
             .attr("width", svgWidth)
             .attr("height", svgHeight);
+
+            const svgTitle = svg.append("text")
+            .attr("x", svgWidth / 2)
+            .attr("y", 40) // Adjust this based on your layout
+            .attr("text-anchor", "middle")
+            .style("font-size", "24px")
+            .style("font-weight", "bold")
+            .text("Diverse Harvests: Maximum Crop Yeilds Across Indian States");
 
         // Define custom color scale with 20 distinct colors
         const customColors = [
@@ -142,6 +173,10 @@ const colorScale = d3.scaleOrdinal().range(customColors);
             svg.selectAll("circle")
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y);
+                labels
+        .attr("x", d => d.x)
+        .attr("y", d => d.y);
+                
         }
 
         // Create circles for each state
@@ -153,6 +188,19 @@ const colorScale = d3.scaleOrdinal().range(customColors);
             .attr("fill", d => colorScale(d.state)) // Set color based on state name
             .attr("opacity", 1);
 
+            const labels = svg.selectAll("text")
+            .data(nodes)
+            .enter()
+            .append("text")
+            .text(d => d.state) // Set the text to be the state name
+            .attr("text-anchor", "middle") // Center the text horizontally
+            .attr("alignment-baseline", "middle") // Center the text vertically
+            .attr("font-size", "10px") // Set the font size
+            .style("font-style","sans-serif")
+            .style("fill", "#333"); // Set the text color
+
+
+           
         // Add tooltip for max yield
         circles.on("mouseover", (event, d) => {
         tooltip.transition().duration(200).style("opacity", 1);
