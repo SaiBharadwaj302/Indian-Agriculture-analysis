@@ -96,12 +96,7 @@ svg {
     font-size: 12px;
 }
 
-.legend .color-box {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-}
+
 
 .legend .legend-text {
     display: inline-block;
