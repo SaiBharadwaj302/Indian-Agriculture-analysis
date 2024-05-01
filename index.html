@@ -9,11 +9,27 @@
     
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <form class="form-inline">
-            <a class="btn btn-outline-success" href="barplot.html" role="button">Production Bar Plot</a>
-            <a class="btn btn-sm btn-outline-secondary" href="yeildbubbleplot.html" role="button">Yeild Bubble Plot</a>
-        </form>
+    <h1>India Agriculture Analysis</h1>
+
+    <div class="container">
+        <!-- Description about the dataset -->
+        <div class="description">
+            <p> The visualizations provides an in-depth analysis of the dynamic fluctuations in the area, yield, and production of a diverse range of crops cultivated across different states of India. By examining trends over time, it offers valuable insights into the agricultural landscape, highlighting variations in crop performance influenced by factors such as climate, soil conditions, and agricultural practices.</p>
+        </div>
+
+        <div class="container">
+            <!-- Description about the dataset -->
+            <div class="description">
+                <p> Use the buttons to navigate through the visualizations. </p>
+            </div></p>
+            </div>
+            <nav class="navbar navbar-light bg-light">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="index.html" class="btn btn-secondary" role="button">Maximum Area  per States</a>
+                    <a href="barplot.html" class="btn btn-secondary" role="button">Maximum Production Bar Plot</a>
+                    <a href="yeildbubbleplot.html" class="btn btn-secondary" role="button">Maximum Yield Bubble Plot</a>
+                </div>
+            </nav>
     </nav>
     <button class="button" value="Rice" id="riceButton"><span>RICE </span></button></button>
     <button class="button" value="Wheat" id="wheatButton"><span>Wheat </span></button></button>
@@ -73,7 +89,7 @@
             let maxAreaByDistrict = {}; // Clear maxAreaByDistrict object
 
             Promise.all([
-                d3.csv("https://raw.githubusercontent.com/SaiBharadwaj302/Indian-Agriculture-analysis/main/data/ICRISAT-District%20Level%20Data.csv")
+                d3.csv("data/data.csv")
             ]).then((csvData) => {
 
                 // Extract the data from the resolved array
@@ -159,7 +175,7 @@
                 const geoJsonUrl = "https://raw.githubusercontent.com/Subhash9325/GeoJson-Data-of-Indian-States/master/Indian_States";
 
                 const width = 1000;
-                const height = 800;
+                const height = 700;
 
                 const tooltip = d3.select("body").append("div")
                     .attr("class", "tooltip")
