@@ -1,0 +1,54 @@
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 8px;
+    font-size: 15px;
+    background: white;
+    border: 1px solid black; /* Increased border width for better visibility */
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0.9; /* Adjusted opacity for better visibility */
+    font-family: sans-serif;
+    z-index: 999; /* Added z-index to ensure tooltip is displayed on top of other elements */
+}
+
+
+.button {
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 15px;
+    padding: 10px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+
