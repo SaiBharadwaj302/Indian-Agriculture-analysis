@@ -8,6 +8,30 @@
     <link rel="stylesheet"href="css/barstyle.css"> 
 </head>
 <body>
+    <h1>India Agriculture Analysis</h1>
+
+    <div class="container">
+        <!-- Description about the dataset -->
+        <div class="description">
+            <p> The visualizations provides an in-depth analysis of the dynamic fluctuations in the area, yield, and production of a diverse range of crops cultivated across different states of India. By examining trends over time, it offers valuable insights into the agricultural landscape, highlighting variations in crop performance influenced by factors such as climate, soil conditions, and agricultural practices.</p>
+        </div>
+
+        <div class="container">
+            <!-- Description about the dataset -->
+            <div class="description">
+                <p> Use the buttons to navigate through the visualizations. </p>
+            </div></p>
+            </div>
+
+            <nav class="navbar navbar-light bg-light">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="index.html" class="btn btn-secondary" role="button">Maximum Area  per States</a>
+                    <a href="barplot.html" class="btn btn-secondary" role="button">Maximum Production Bar Plot</a>
+                    <a href="yeildbubbleplot.html" class="btn btn-secondary" role="button">Maximum Yield Bubble Plot</a>
+                </div>
+            </nav>
+
+
     <button class="button" value="Rice" id="riceButton"><span>Rice </span></button></button>
     <button class="button" value="Wheat" id="wheatButton"><span>Wheat </span></button></button>
     <button class="button" value="Kharif Sorghum" id="kharifSorghumButton"><span>Kharif Sorghum </span></button></button>
@@ -209,6 +233,18 @@
                     .duration(1000) // Set the duration of the transition in milliseconds
                     .ease(d3.easeCubicInOut)
                     .attr("opacity", 1); 
+
+
+                svg.append("text")
+                    .attr("class", "x-axis-label")
+                    .attr("x", width / 2)
+                    .attr("y", height + margin.bottom - 10)
+                    .style("text-anchor", "middle")
+                    .style("font-size", "18px")
+                    .style("font-weight","800")
+                    .style("font-style","sans-serif")
+                    .text("States");
+
 
 
                
